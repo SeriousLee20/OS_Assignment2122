@@ -4,11 +4,11 @@
 //1-  Input the processes along with their burst time (bt) & arrival time (at).
 int main(){
     
-    int processes[] = {'a', 'b', 'c'};
+    int processes[] = {'a', 'b', 'c', 'd', 'e'};
 
     int numOfProcess = sizeof processes / sizeof processes[0];
-    float bt[] = {5, 9, 6};
-    float at[] = {0, 3, 6};
+    float bt[] = {5, 4, 3, 2, 4};
+    float at[] = {4, 6, 0, 6, 5};
 
     findWtAndTat(processes, numOfProcess, bt, at);
 
@@ -23,6 +23,8 @@ void findWtAndTat(int process[], int numOfProcess, float bt[], float at[]){
     
     float serviceTime[numOfProcess], wt[numOfProcess], tat[numOfProcess], wasted, burst; 
 
+    sortProcess(process, numOfProcess, bt, at);
+
     // set wt for first process as 0
     wt[0] = 0.0;
     serviceTime[0] = at[0];
@@ -33,37 +35,83 @@ void findWtAndTat(int process[], int numOfProcess, float bt[], float at[]){
 
         wasted = 0.0;
         
-        //calculate total burst time for all process
-        burst += bt[i - 1];
 
-        //service time = total burst time + arrival time of process i
-        serviceTime[i] = at[i - 1] + burst;
+        //service time = summation of burst time for previous processes
+        serviceTime[i] = serviceTime[i - 1] + bt[i - 1];
 
-        //calculate wt = total burst time - arrival time of process[i]
-        wt[i] = burst - at[i];
+        //calculate wt = service time[i] - arrival time of process[i]
+        wt[i] = serviceTime[i] - at[i];
 
-         /* if(wt[i] < 0){
+        // Waiting is -ve if the process enter queue when CPU idles, waiting time = 0
+        if(wt[i] < 0){
             //to get positive wt[i]
             wasted = abs(wt[i]);
-            printf("%5.2f", wasted);
             wt[i] = 0;
         } 
 
-        serviceTime[i] = serviceTime[i] + wasted; */
-
-        printf("QT[%d]: %8.2f\n", process[i - 1], serviceTime[i-1]);
+        // total burst time need to add the idle time to get the correct total time
+        serviceTime[i] = serviceTime[i] + wasted;
 
         //calculate tat (index start from 0, so i - 1)
         tat[i - 1] = wt[i - 1] + bt[i - 1];
 
         /*Print the result*/
-        //printf("BT[%d]: %8.2f\t", process[i - 1], bt[i-1]);
-        //printf("WT[%d]: %8.2f\t", process[i - 1], wt[i-1]);
-        //printf("TAT[%d]: %8.2f\n", process[i - 1], tat[i-1]);
+        printf("QT[%d]: %5.2f\t", process[i - 1], serviceTime[i-1]);
+        printf("BT[%d]: %5.2f\t", process[i - 1], bt[i-1]);
+        printf("WT[%d]: %5.2f\t", process[i - 1], wt[i-1]);
+        printf("TAT[%d]: %5.2f\n", process[i - 1], tat[i-1]);
     }
 
     // a function to print the result
     printResult(process, numOfProcess, at, bt, wt, tat);
+}
+
+void sortProcess(int process[], int numOfProcess, float bt[], float at[]){
+
+    float tempBT, tempAT;
+    int tempProcess;
+
+    for(int i = 0; i < numOfProcess - 1; i++){
+        for(int j = i + 1; j < numOfProcess; j++){
+
+            if(at[i] == at[j]){
+                if(process[i] > process[j]){
+                    tempAT = at[i];
+                    at[i] = at[j];
+                    at[j] = tempAT;
+
+                    tempBT = bt[i];
+                    bt[i] = bt[j];
+                    bt[j] = tempBT;
+
+                    tempProcess = process[i];
+                    process[i] = process[j];
+                    process[j] = tempProcess;
+                }
+            }
+            
+            if(at[i] > at[j]){
+            tempAT = at[i];
+            at[i] = at[j];
+            at[j] = tempAT;
+
+            tempBT = bt[i];
+            bt[i] = bt[j];
+            bt[j] = tempBT;
+
+            tempProcess = process[i];
+            process[i] = process[j];
+            process[j] = tempProcess;
+
+           /*  for(int k = 0; k < numOfProcess; k++){
+                printf("%d %2.2f\n", process[k], at[k]);
+            } */
+        }
+
+        }
+
+       
+    }
 }
 
 void printResult(int process[], int numOfProcess, float at[], float bt[], float wt[], float tat[]){
