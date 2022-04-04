@@ -66,6 +66,7 @@ void findWtAndTat(int process[], int numOfProcess, float bt[], float at[]){
     printResult(process, numOfProcess, at, bt, wt, tat);
 }
 
+/* Sorting processes based on arrival time */
 void sortProcess(int process[], int numOfProcess, float bt[], float at[]){
 
     float tempBT, tempAT;
@@ -74,46 +75,42 @@ void sortProcess(int process[], int numOfProcess, float bt[], float at[]){
     for(int i = 0; i < numOfProcess - 1; i++){
         for(int j = i + 1; j < numOfProcess; j++){
 
-            if(at[i] == at[j]){
-                if(process[i] > process[j]){
-                    tempAT = at[i];
-                    at[i] = at[j];
-                    at[j] = tempAT;
+            // rearrange if same at but at larger than the at behind
+            if(at[i] == at[j] && process[i] > process[j]){
+                tempAT = at[i];
+                at[i] = at[j];
+                at[j] = tempAT;
 
-                    tempBT = bt[i];
-                    bt[i] = bt[j];
-                    bt[j] = tempBT;
+                tempBT = bt[i];
+                bt[i] = bt[j];
+                bt[j] = tempBT;
 
-                    tempProcess = process[i];
-                    process[i] = process[j];
-                    process[j] = tempProcess;
-                }
+                tempProcess = process[i];
+                process[i] = process[j];
+                process[j] = tempProcess;
             }
             
+            // swap if at[i] larger larger than at behind
             if(at[i] > at[j]){
-            tempAT = at[i];
-            at[i] = at[j];
-            at[j] = tempAT;
+                tempAT = at[i];
+                at[i] = at[j];
+                at[j] = tempAT;
 
-            tempBT = bt[i];
-            bt[i] = bt[j];
-            bt[j] = tempBT;
+                tempBT = bt[i];
+                bt[i] = bt[j];
+                bt[j] = tempBT;
 
-            tempProcess = process[i];
-            process[i] = process[j];
-            process[j] = tempProcess;
-
-           /*  for(int k = 0; k < numOfProcess; k++){
-                printf("%d %2.2f\n", process[k], at[k]);
-            } */
-        }
+                tempProcess = process[i];
+                process[i] = process[j];
+                process[j] = tempProcess;
 
         }
 
-       
+        }
     }
 }
 
+/* Print the result */
 void printResult(int process[], int numOfProcess, float at[], float bt[], float wt[], float tat[]){
     
     printf("|Process ID | Arrival Time | Burst Time | Waiting Time | Turnaround Time|\n");
