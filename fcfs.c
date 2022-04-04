@@ -6,7 +6,7 @@ int main(){
     int processes[] = {'a', 'b', 'c'};
 
     int numOfProcess = sizeof processes / sizeof processes[0];
-    float bt[] = {10, 5, 8};
+    float bt[] = {4, 9, 5};
 
     findWtAndTat(processes, numOfProcess, bt);
 
