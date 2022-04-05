@@ -21,7 +21,7 @@ int main(){
 //5 Find turnaround time (tat)
 void findWtAndTat(int process[], int numOfProcess, float bt[], float at[]){
     
-    float serviceTime[numOfProcess], wt[numOfProcess], tat[numOfProcess], wasted, burst; 
+    float serviceTime[numOfProcess], wt[numOfProcess], tat[numOfProcess], wasted, totalWT, totalTAT; 
 
     sortProcess(process, numOfProcess, bt, at);
 
@@ -31,10 +31,9 @@ void findWtAndTat(int process[], int numOfProcess, float bt[], float at[]){
 
 
     // index start from 1, since wt[0] is initialized
-    for(int i = 1; i <= numOfProcess; i++){
+    for(int i = 1; i < numOfProcess; i++){
 
         wasted = 0.0;
-        
 
         //service time = summation of burst time for previous processes
         serviceTime[i] = serviceTime[i - 1] + bt[i - 1];
@@ -52,8 +51,8 @@ void findWtAndTat(int process[], int numOfProcess, float bt[], float at[]){
         // total burst time need to add the idle time to get the correct total time
         serviceTime[i] = serviceTime[i] + wasted;
 
-        //calculate tat (index start from 0, so i - 1)
-        tat[i - 1] = wt[i - 1] + bt[i - 1];
+        //Sum up waiting time
+        totalWT += wt[i];
 
         /*Print the result*/
         /* printf("QT[%d]: %5.2f\t", process[i - 1], serviceTime[i-1]);
@@ -62,8 +61,23 @@ void findWtAndTat(int process[], int numOfProcess, float bt[], float at[]){
         printf("TAT[%d]: %5.2f\n", process[i - 1], tat[i-1]); */
     }
 
+    for(int i = 0; i < numOfProcess; i++){
+        //calculate tat
+        tat[i] = wt[i] + bt[i];
+
+        // Sum up turn around time
+        totalTAT += tat[i];
+    }
+
+
     // a function to print the result
     printResult(process, numOfProcess, at, bt, wt, tat);
+
+    printf("\n");
+
+    // Print average times
+    printf("Average waiting time: %5.2f\n", totalWT/numOfProcess);
+    printf("Average turn around time: %5.2f\n", totalTAT/numOfProcess);
 }
 
 /* Sorting processes based on arrival time */
@@ -117,7 +131,7 @@ void printResult(int process[], int numOfProcess, float at[], float bt[], float 
 
     for(int i = 0; i < numOfProcess; i++){
 
-       for(int j = 0; j < 60; j++){
+       for(int j = 0; j < 70; j++){
             printf("-");
         }
 
