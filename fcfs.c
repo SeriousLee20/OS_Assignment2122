@@ -127,17 +127,17 @@ void sortProcess(int process[], int numOfProcess, float bt[], float at[]){
 /* Print the result */
 void printResult(int process[], int numOfProcess, float at[], float bt[], float wt[], float tat[]){
     
-    printf("|Process ID | Arrival Time | Burst Time | Waiting Time | Turnaround Time|\n");
+    printf("|Process ID | Arrival Time | Burst Time | Waiting Time | Turnaround Time |\n");
 
     for(int i = 0; i < numOfProcess; i++){
 
-       for(int j = 0; j < 70; j++){
+       for(int j = 0; j < 75; j++){
             printf("-");
         }
 
         printf("\n");
 
-        printf("|    %d    | %8.2f    | %8.2f   | %8.2f     |   %8.2f     |\n", process[i], at[i], bt[i], wt[i], tat[i]);
+        printf("|%d\t\t  |%8.2f      |%8.2f    |%8.2f      |%8.2f         |\n", process[i], at[i], bt[i], wt[i], tat[i]);
     }
 }
 

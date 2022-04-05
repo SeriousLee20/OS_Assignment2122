@@ -50,7 +50,7 @@ void main() {
     for (int i = 0; i< numOfProcess; i++) {
         tat[i] = bt[i] + wt[i]; //calculate turnaround time
         tatSum += tat[i];
-        printf("\n| P%d\t\t|\t%d\t\t|\t%d\t\t\t|\t%d\t\t\t\t|", process[i], bt[i], wt[i], tat[i]);
+        printf("\n| P%d\t\t\t|\t%d\t\t|\t%d\t\t|\t%d\t\t\t|", process[i], bt[i], wt[i], tat[i]);
     }
     float avg_tat = (float) tatSum / numOfProcess; //average turnaround time
     printf("\n\nAverage Waiting Time\t= %f",avg_wt);
