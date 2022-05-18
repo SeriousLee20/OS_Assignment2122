@@ -1,0 +1,1 @@
+int numOfProcess = sizeof processes / sizeof processes[0];

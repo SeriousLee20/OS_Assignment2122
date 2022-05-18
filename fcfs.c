@@ -1,19 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-//1-  Input the processes along with their burst time (bt) & arrival time (at).
-int main(){
-    
-    int processes[] = {'a', 'b', 'c', 'd', 'e'};
 
-    int numOfProcess = sizeof processes / sizeof processes[0];
-    float bt[] = {5, 4, 3, 2, 4};
-    float at[] = {4, 6, 0, 6, 5};
-
-    findWtAndTat(processes, numOfProcess, bt, at);
-
-    return 0;
-}
 
 //2 Find waiting time (wt) for all processes.
 //3 As first process that comes need not to wait so waiting time for process 1 will be 0 
@@ -141,3 +129,17 @@ void printResult(int process[], int numOfProcess, float at[], float bt[], float 
     }
 }
 
+
+//1-  Input the processes along with their burst time (bt) & arrival time (at).
+int main(){
+    
+    int processes[] = {'a', 'b', 'c', 'd', 'e'};
+
+    int numOfProcess = sizeof processes / sizeof processes[0];
+    float bt[] = {5, 4, 3, 2, 4};
+    float at[] = {4, 6, 0, 6, 5};
+
+    findWtAndTat(processes, numOfProcess, bt, at);
+
+    return 0;
+}
